@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BulkMailingSystemComponent } from './bulk-mailing-system.component';
+import { ComposeMailComponent } from './compose-mail.component';
 
-describe('BulkMailingSystemComponent', () => {
-  let component: BulkMailingSystemComponent;
-  let fixture: ComponentFixture<BulkMailingSystemComponent>;
+describe('ComposeMailComponent', () => {
+  let component: ComposeMailComponent;
+  let fixture: ComponentFixture<ComposeMailComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BulkMailingSystemComponent ]
+      declarations: [ ComposeMailComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BulkMailingSystemComponent);
+    fixture = TestBed.createComponent(ComposeMailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
