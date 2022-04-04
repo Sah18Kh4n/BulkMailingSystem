@@ -1,9 +1,8 @@
 <div class="compose-mail">
-<form>
+<form [formGroup]="composeMail">
 <mat-card class="container">
 				<mat-toolbar class="navbar">Bulk Mail Service
 						<div class="icon">
-											<!-- <button mat-icon-button color="accent"> Import Data</button> -->
 											<button mat-icon-button class="toolbar-icon">
 													<mat-icon>minimize</mat-icon>
 											</button>
@@ -22,31 +21,32 @@
 								<mat-label>
 												<h1 style="font-size: 15px;">To</h1>
 								</mat-label>
-								<mat-chip-list #chipList aria-label="emails">
-												<mat-chip
-														*ngFor="let email of emailRecords; let i = index"
-														(removed)="remove(emailRecords)">
-														{{email.email}}
-														<button matChipRemove (click)="deleteAddress(email.i)">
-																<mat-icon>cancel</mat-icon>
-														</button>
-												</mat-chip>
-												<input
-														placeholder="Add mail"
-														#fruitInput
-														[matChipInputFor]="chipList"
-														formControlName="emailCtrl"
-														(matChipInputTokenEnd)="add($event)">
-
-												<input type="file" id="input" (change)="excelRead($event)">
-											
-										</mat-chip-list>
+								
+  <mat-chip-list #chipList aria-label="Fruit selection">
+    <mat-chip
+      *ngFor="let recipientMails of recipientMail"
+      (removed)="remove(recipientMails)">
+      {{recipientMails}}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+    <input
+      placeholder="Enter mail"
+      #fruitInput
+      formControlName="recipient"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
 				</mat-form-field>
+				
 </div>
 
 <div>
 	<label for="Subject"></label>
-	<mat-form-field>
+	<mat-form-field id="subject" formControlName="subject">
 					<mat-label>
 									<h1 style="font-size: 15px;">Subject</h1>
 					</mat-label>
@@ -56,14 +56,15 @@
 
 <!-- quill editor -->
 <div class="editor">
-	<quill-editor trackChanges="all" [modules]="modules" (onEditorCreated)="addBindingCreated($event)">
+	<quill-editor trackChanges="all" [modules]="modules" formControlName="content">
 		<mat-autocomplete #auto="matAutocomplete">
-		<mat-option *ngFor="let email of emailRecords" [value]="email.email">
-			{{email.email}}
+		<mat-option >
+			
 		</mat-option>
 		</mat-autocomplete>
 	</quill-editor>
 	</div>
 </mat-card>
+<button >Submit</button>
 </form>
 </div>
