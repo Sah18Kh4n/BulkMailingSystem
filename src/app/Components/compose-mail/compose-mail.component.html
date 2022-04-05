@@ -2,7 +2,11 @@
 <form [formGroup]="composeMail">
 <mat-card class="container">
 				<mat-toolbar class="navbar">Bulk Mail Service
+						
 						<div class="icon">
+								<button mat-stroked-button (click)="fileInput.click()" style="margin-left: 160%;">Import data</button>
+								<input  #fileInput type="file" multiple (change)="uploadFile($event)" style="display: none;">
+								
 											<button mat-icon-button class="toolbar-icon">
 													<mat-icon>minimize</mat-icon>
 											</button>
@@ -22,11 +26,11 @@
 												<h1 style="font-size: 15px;">To</h1>
 								</mat-label>
 								
-  <mat-chip-list #chipList aria-label="Fruit selection">
+  <mat-chip-list #chipList aria-label="mail selection">
     <mat-chip
-      *ngFor="let recipientMails of recipientMail"
-      (removed)="remove(recipientMails)">
-      {{recipientMails}}
+      *ngFor="let recipientmail of recipientMail"
+      (removed)="remove(recipientmail)">
+						{{recipientmail.email}}
       <button matChipRemove>
         <mat-icon>cancel</mat-icon>
       </button>
@@ -39,14 +43,14 @@
       [matChipInputFor]="chipList"
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       (matChipInputTokenEnd)="add($event)">
+						
   </mat-chip-list>
 				</mat-form-field>
-				
 </div>
 
 <div>
 	<label for="Subject"></label>
-	<mat-form-field id="subject" formControlName="subject">
+	<mat-form-field id="subject">
 					<mat-label>
 									<h1 style="font-size: 15px;">Subject</h1>
 					</mat-label>
@@ -59,12 +63,11 @@
 	<quill-editor trackChanges="all" [modules]="modules" formControlName="content">
 		<mat-autocomplete #auto="matAutocomplete">
 		<mat-option >
-			
 		</mat-option>
 		</mat-autocomplete>
 	</quill-editor>
 	</div>
+	<button mat-raised-button color="primary" style="margin-left: 88%;">Send</button>
 </mat-card>
-<button >Submit</button>
 </form>
 </div>
