@@ -4,8 +4,8 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import readXlsxFile from 'read-excel-file';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-
-
+import { Binary } from '@angular/compiler';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-compose-mail',
@@ -15,7 +15,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 export class ComposeMailComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   composeMail: FormGroup
-  recipientMail: string[] = ['xyz45gmail.com@', 'pqr@gmail.com', 'mno@45gmmail.com', 'nvsjs@gmail.com', 'sds@gmaily@gmail.com'];
+  recipientMail: any[] = [];
   modules = {}
   constructor(public fb: FormBuilder) {
     const modules = {
@@ -60,8 +60,8 @@ export class ComposeMailComponent implements OnInit {
 
   //add method here
 
-  remove(fruit: string): void {
-    const index = this.recipientMail.indexOf(fruit);
+  remove(mail: string): void {
+    const index = this.recipientMail.indexOf(mail);
     if (index >= 0) {
       this.recipientMail.splice(index, 1);
     }
@@ -70,7 +70,7 @@ export class ComposeMailComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add our fruit
+    // Add our mails
     if (value) {
       this.recipientMail.push(value);
     }
@@ -80,7 +80,32 @@ export class ComposeMailComponent implements OnInit {
 
     this.composeMail.controls['recipient'].setValue(null);
   }
+
   onSubmit(){
     console.log(this.composeMail.controls.values)
   }
+
+  uploadFile(event){
+    for(var i=0; i < event.target.files.length; i++){
+    const selectedFiles = event.target.files[0];
+    const fileReader = new FileReader();
+
+    fileReader.readAsBinaryString(selectedFiles)
+
+    fileReader.onload=(data)=>{
+      const BinaryData = data.target.result
+      let workbook = XLSX.read(BinaryData,{type:"binary"})
+      
+
+      workbook.SheetNames.map(sheet =>{
+        const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet])
+        
+        data.map(item=>{
+          console.log(item);
+          this.recipientMail.push(item)
+        })
+      })
+    }
+  }
+}
 }
